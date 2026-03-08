@@ -1,6 +1,8 @@
 # Plasma Caffeine
 
-KDE Plasma 6 system tray widget to prevent the system from sleeping.
+KDE Plasma 6 panel widget to prevent the system from sleeping.
+
+Click the icon to toggle sleep inhibition on/off.
 
 ## Requirements
 
@@ -11,19 +13,25 @@ KDE Plasma 6 system tray widget to prevent the system from sleeping.
 ## Install
 
 ```bash
+git clone https://github.com/archfill/plasma-caffeine.git
+cd plasma-caffeine
 ./install.sh
 ```
 
-Then add the widget: right-click the desktop → **Add Widgets** → search **Plasma Caffeine**.
+Then add the widget to your panel:
+
+1. Right-click the panel → **Edit Panel** → **Add Widgets**
+2. Search for **Plasma Caffeine**
+3. Drag it to the panel
 
 ## Usage
 
-Click the tray icon to toggle sleep inhibition.
+| State | Icon          | Behavior                |
+| ----- | ------------- | ----------------------- |
+| OFF   | ☕ coffee-off | Sleep allowed (default) |
+| ON    | ☕ coffee     | Sleep inhibited         |
 
-| State | Icon                | Behavior                |
-| ----- | ------------------- | ----------------------- |
-| OFF   | 💤 (system-suspend) | Sleep allowed (default) |
-| ON    | ▶ (system-run)      | Sleep inhibited         |
+Hovering shows a tooltip with the current state. Clicking the icon in the panel toggles sleep inhibition.
 
 ## Uninstall
 
@@ -33,4 +41,10 @@ Click the tray icon to toggle sleep inhibition.
 
 ## How it works
 
-Uses `systemd-inhibit` to block `sleep`, `idle`, and `handle-lid-switch` via logind DBus.
+- The widget calls a helper script (`~/.local/bin/plasma-caffeine`) on each toggle
+- The helper runs `systemd-inhibit` to block `sleep`, `idle`, and `handle-lid-switch` via logind DBus
+- The inhibitor is released immediately when toggled off or when the session ends
+
+## Credits
+
+- Icons: [Tabler Icons](https://tabler.io/icons) (MIT License)
