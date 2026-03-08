@@ -1,0 +1,20 @@
+{
+  "KPackageStructure": "Plasma/Applet",
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "",
+        "Name": "archfill"
+      }
+    ],
+    "Category": "System Information",
+    "Description": "Prevent system from sleeping, like caffeine for your desktop",
+    "Icon": "system-run",
+    "Id": "com.github.archfill.plasma-caffeine",
+    "License": "MIT",
+    "Name": "Plasma Caffeine",
+    "Version": "0.1.0",
+    "Website": "https://github.com/archfill/plasma-caffeine"
+  },
+  "X-Plasma-API-Minimum-Version": "6.0"
+}

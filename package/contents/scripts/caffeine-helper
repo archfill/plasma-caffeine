@@ -1,0 +1,46 @@
+#!/bin/bash
+# Plasma Caffeine helper script
+# Usage: plasma-caffeine {start|stop|status}
+
+PID_FILE="/tmp/plasma-caffeine.pid"
+
+is_running() {
+    [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null
+}
+
+case "$1" in
+    start)
+        if is_running; then
+            echo "already_running"
+            exit 0
+        fi
+        systemd-inhibit \
+            --what=sleep:idle:handle-lid-switch \
+            --who="Plasma Caffeine" \
+            --why="Manually inhibited by user" \
+            sleep infinity &
+        echo $! > "$PID_FILE"
+        echo "started"
+        ;;
+    stop)
+        if is_running; then
+            kill "$(cat "$PID_FILE")" 2>/dev/null
+            rm -f "$PID_FILE"
+            echo "stopped"
+        else
+            rm -f "$PID_FILE"
+            echo "not_running"
+        fi
+        ;;
+    status)
+        if is_running; then
+            echo "running"
+        else
+            echo "stopped"
+        fi
+        ;;
+    *)
+        echo "Usage: plasma-caffeine {start|stop|status}"
+        exit 1
+        ;;
+esac
